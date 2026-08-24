@@ -1,0 +1,21 @@
+# Local environment & secrets — never commit
+.env
+.env.*
+*.local
+
+# DSH / harness runtime
+.dsh/
+.agents/
+*.jsonl
+*.jsonl.zstd
+
+# Node
+node_modules/
+*.log
+npm-debug.log*
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

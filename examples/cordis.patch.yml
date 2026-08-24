@@ -1,0 +1,27 @@
+# DSH profile patch layer — Firecrawl MCP server example
+#
+# How to use:
+#   1. Copy this file's entries into your DSH profile's cordis.patch.yml
+#      (DSH_HOME/profiles/<profile>/cordis.patch.yml, e.g. ~/.dsh/profiles/web/cordis.patch.yml)
+#   2. Ensure FIRECRAWL_API_KEY is set in the HOST environment
+#      (setx FIRECRAWL_API_KEY "fc-xxxx" on Windows, then RESTART DSH)
+#   3. The skill will then see mcp__firecrawl__search / mcp__firecrawl__scrape (25 tools)
+#
+# Platform notes:
+#   - command: use `npx.cmd` on Windows (PowerShell script policy blocks npx.ps1),
+#     `npx` on macOS/Linux.
+#   - First launch downloads firecrawl-mcp via npx (~1-2 min) which can exceed the
+#     MCP client's 60s connection timeout; let it fail once, then edit this file
+#     (triggers HMR reload) or restart — the npx cache is warm afterwards.
+#   - toolCallTimeoutMs: Firecrawl search/scrape can take a while; 120s is safe.
+- insert:
+    - id: mcp-firecrawl
+      name: '@deepseek-ai/dsh-mcp-client'
+      config:
+        serverName: firecrawl
+        transport: stdio
+        command: npx.cmd
+        args: ['-y', 'firecrawl-mcp']
+        toolCallTimeoutMs: 120000
+        env:
+          FIRECRAWL_API_KEY: !!js process.env.FIRECRAWL_API_KEY
